@@ -26,7 +26,10 @@ class AutoConfig{
 
     protected function loadData(){
         $client = new SoapClient(null, array('location' => SOAP_LOCATION,
-            'uri'      => SOAP_URI));
+            'uri'      => SOAP_URI,
+            'trace' => 1,
+            'stream_context'=> stream_context_create(array('ssl'=> array('verify_peer'=>false,'verify_peer_name'=>false))) // prevent https://github.com/SpicyWeb-de/isp-mailConfig/issues/2 
+        ));
         try {
             //* Login to the remote server
             if($session_id = $client->login(SOAP_USER,SOAP_PASS)) {
